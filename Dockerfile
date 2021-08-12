@@ -12,10 +12,9 @@ RUN apk --update add ca-certificates \
                      curl
 HEALTHCHECK --start-period=2s --interval=5s --timeout=3s \
   CMD curl -f http://localhost:8088/health || exit 1
-VOLUME /srv
 EXPOSE 8088
-COPY --from=0  ./filebrowser .
-COPY --from=0  ./.docker.json .filebrowser.json
+COPY --from=0  /apps/filebrowser .
+COPY --from=0  /apps/.docker.json .filebrowser.json
 
 ENTRYPOINT [ "/filebrowser" ]
 
