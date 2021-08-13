@@ -64,49 +64,6 @@
     </div>
     <div v-else>
       <div class="share">
-        <div class="share__box share__box__info">
-          <div class="share__box__header">
-            {{
-              req.isDir
-                ? $t("download.downloadFolder")
-                : $t("download.downloadFile")
-            }}
-          </div>
-          <div class="share__box__element share__box__center share__box__icon">
-            <i class="material-icons">{{ icon }}</i>
-          </div>
-          <div class="share__box__element">
-            <strong>{{ $t("prompts.displayName") }}</strong> {{ req.name }}
-          </div>
-          <div class="share__box__element" :title="modTime">
-            <strong>{{ $t("prompts.lastModified") }}:</strong> {{ humanTime }}
-          </div>
-          <div class="share__box__element">
-            <strong>{{ $t("prompts.size") }}:</strong> {{ humanSize }}
-          </div>
-          <div class="share__box__element share__box__center">
-            <a target="_blank" :href="link" class="button button--flat">
-              <div>
-                <i class="material-icons">file_download</i
-                >{{ $t("buttons.download") }}
-              </div>
-            </a>
-            <a
-              target="_blank"
-              :href="link + '?inline=true'"
-              class="button button--flat"
-              v-if="!req.isDir"
-            >
-              <div>
-                <i class="material-icons">open_in_new</i
-                >{{ $t("buttons.openFile") }}
-              </div>
-            </a>
-          </div>
-          <div class="share__box__element share__box__center">
-            <qrcode-vue :value="fullLink" size="200" level="M"></qrcode-vue>
-          </div>
-        </div>
         <div
           v-if="req.isDir && req.items.length > 0"
           class="share__box share__box__items"
@@ -164,6 +121,49 @@
             <i class="material-icons">sentiment_dissatisfied</i>
             <span>{{ $t("files.lonely") }}</span>
           </h2>
+        </div>
+        <div class="share__box share__box__info">
+          <div class="share__box__header">
+            {{
+              req.isDir
+                ? $t("download.downloadFolder")
+                : $t("download.downloadFile")
+            }}
+          </div>
+          <div class="share__box__element share__box__center share__box__icon">
+            <i class="material-icons">{{ icon }}</i>
+          </div>
+          <div class="share__box__element">
+            <strong>{{ $t("prompts.displayName") }}</strong> {{ req.name }}
+          </div>
+          <div class="share__box__element" :title="modTime">
+            <strong>{{ $t("prompts.lastModified") }}:</strong> {{ humanTime }}
+          </div>
+          <div class="share__box__element">
+            <strong>{{ $t("prompts.size") }}:</strong> {{ humanSize }}
+          </div>
+          <div class="share__box__element share__box__center">
+            <a target="_blank" :href="link" class="button button--flat">
+              <div>
+                <i class="material-icons">file_download</i
+                >{{ $t("buttons.download") }}
+              </div>
+            </a>
+            <a
+              target="_blank"
+              :href="link + '?inline=true'"
+              class="button button--flat"
+              v-if="!req.isDir"
+            >
+              <div>
+                <i class="material-icons">open_in_new</i
+                >{{ $t("buttons.openFile") }}
+              </div>
+            </a>
+          </div>
+          <div class="share__box__element share__box__center">
+            <qrcode-vue :value="fullLink" size="200" level="M"></qrcode-vue>
+          </div>
         </div>
       </div>
     </div>
