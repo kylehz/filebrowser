@@ -4,5 +4,5 @@
   "address": "",
   "log": "stdout",
   "database": "/config/database.db",
-  "root": "/myfiles/files"
+  "root": "/myfiles"
 }
