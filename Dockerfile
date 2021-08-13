@@ -1,16 +1,16 @@
-# FROM node:12 as builder-front
-# WORKDIR /apps
-# COPY ./ .
-# RUN cd frontend \
-#   && npm config set registry https://registry.npm.taobao.org \
-#   && npm install && npm run build \
-#   && rm -rf node_modules
+FROM node:12 as builder-front
+WORKDIR /apps
+COPY ./ .
+RUN cd frontend \
+  && npm config set registry https://registry.npm.taobao.org \
+  && npm install && npm run build \
+  && rm -rf node_modules
 
 FROM golang:1.16.6-alpine as builder-backend
 ENV GOPROXY="https://goproxy.io" \
     GO111MODULE=on
 WORKDIR /apps
-COPY ./ .
+COPY --from=builder-front /apps .
 RUN go build -o filebrowser main.go
 
 FROM alpine:latest
@@ -25,4 +25,3 @@ COPY --from=builder-backend  /apps/filebrowser .
 COPY --from=builder-backend  /apps/.docker.json .filebrowser.json
 
 ENTRYPOINT [ "./filebrowser" ]
-
