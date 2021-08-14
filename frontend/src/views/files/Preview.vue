@@ -311,32 +311,34 @@ export default {
           const res = await api.fetch(path);
           this.listing = res.items;
         } catch (e) {
-          this.$showError(e);
+          console.log("err:", e);
+          // this.$showError(e);
         }
       }
 
       this.previousLink = "";
       this.nextLink = "";
 
-      for (let i = 0; i < this.listing.length; i++) {
-        if (this.listing[i].name !== this.name) {
-          continue;
-        }
+      if (this.listing) {
+        for (let i = 0; i < this.listing.length; i++) {
+          if (this.listing[i].name !== this.name) {
+            continue;
+          }
 
-        for (let j = i - 1; j >= 0; j--) {
-          if (mediaTypes.includes(this.listing[j].type)) {
-            this.previousLink = this.listing[j].url;
-            break;
+          for (let j = i - 1; j >= 0; j--) {
+            if (mediaTypes.includes(this.listing[j].type)) {
+              this.previousLink = this.listing[j].url;
+              break;
+            }
+          }
+
+          for (let j = i + 1; j < this.listing.length; j++) {
+            if (mediaTypes.includes(this.listing[j].type)) {
+              this.nextLink = this.listing[j].url;
+              break;
+            }
           }
         }
-
-        for (let j = i + 1; j < this.listing.length; j++) {
-          if (mediaTypes.includes(this.listing[j].type)) {
-            this.nextLink = this.listing[j].url;
-            break;
-          }
-        }
-
         return;
       }
     },

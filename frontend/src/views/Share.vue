@@ -307,7 +307,7 @@ export default {
 
       try {
         let file = await api.fetch(url, this.password);
-
+        // console.log("fetch:", url, file);
         this.token = file.token || "";
         // console.log("fetchData:", file);
         this.updateRequest(file);
