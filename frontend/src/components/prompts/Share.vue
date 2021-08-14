@@ -79,6 +79,7 @@
             v-model.trim="time"
           />
           <select class="right" v-model="unit" :aria-label="$t('time.unit')">
+            <option value="forever">{{ $t("time.forever") }}</option>
             <option value="seconds">{{ $t("time.seconds") }}</option>
             <option value="minutes">{{ $t("time.minutes") }}</option>
             <option value="hours">{{ $t("time.hours") }}</option>
@@ -127,7 +128,7 @@ export default {
   data: function () {
     return {
       time: "",
-      unit: "hours",
+      unit: "forever",
       links: [],
       clip: null,
       password: "",
@@ -189,7 +190,7 @@ export default {
         this.sort();
 
         this.time = "";
-        this.unit = "hours";
+        this.unit = "forever";
         this.password = "";
 
         this.listing = true;

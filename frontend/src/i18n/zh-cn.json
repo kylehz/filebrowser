@@ -252,6 +252,7 @@
     "hours": "小时",
     "minutes": "分钟",
     "seconds": "秒",
+    "forever": "永久",
     "unit": "时间单位"
   }
 }

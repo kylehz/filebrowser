@@ -255,6 +255,7 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds",
+    "forever": "Forever",
     "unit": "Time Unit"
   }
 }
