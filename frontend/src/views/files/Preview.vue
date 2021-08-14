@@ -201,7 +201,7 @@ export default {
     },
     raw() {
       if (this.req.url.indexOf("/share/") != -1) {
-        return `${this.publink}`;
+        return `${this.publink}&inline=true`;
       }
       return `${this.previewUrl}&inline=true`;
     },
@@ -397,7 +397,7 @@ export default {
     },
     getUrl() {
       if (this.req.url.indexOf("/share/") != -1) {
-        return this.publink1();
+        return this.publink1() + "&inline=true";
       }
       return this.previewUrl1() + "&inline=true";
     },
