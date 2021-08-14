@@ -64,7 +64,13 @@
           :autoplay="autoPlay"
           @play="autoPlay = true"
         ></audio>
-        <video
+        <div
+          id="dplayer"
+          class="play-root"
+          v-else-if="req.type == 'video'"
+          style="width: 100%; height: 100%; margin: 0 auto"
+        ></div>
+        <!-- <video
           v-else-if="req.type == 'video'"
           ref="player"
           :src="raw"
@@ -83,7 +89,7 @@
           Sorry, your browser doesn't support embedded videos, but don't worry,
           you can <a :href="downloadUrl">download it</a>
           and watch it with your favorite video player!
-        </video>
+        </video> -->
         <object
           v-else-if="req.extension.toLowerCase() == '.pdf'"
           class="pdf"
@@ -131,6 +137,7 @@ import throttle from "lodash.throttle";
 import HeaderBar from "@/components/header/HeaderBar";
 import Action from "@/components/header/Action";
 import ExtendedImage from "@/components/files/ExtendedImage";
+import DPlayer from "dplayer";
 
 const mediaTypes = ["image", "video", "audio", "blob"];
 
@@ -153,6 +160,7 @@ export default {
       navTimeout: null,
       hoverNav: false,
       autoPlay: false,
+      dp: null,
     };
   },
   computed: {
@@ -199,6 +207,26 @@ export default {
     window.addEventListener("keydown", this.key);
     this.listing = this.oldReq.items;
     this.updatePreview();
+    if (this.req.type == "video") {
+      const url = this.getUrl();
+      // console.log("url:" + url);
+      this.dp = new DPlayer({
+        // 配置参数
+        container: document.getElementById("dplayer"),
+        autoplay: true,
+        theme: "#FADFA3",
+        loop: true,
+        lang: "zh-cn",
+        preload: "auto",
+        // logo: 'logo.png',
+        volume: 1,
+        video: {
+          url: url,
+          pic: "",
+          type: "auto",
+        },
+      });
+    }
   },
   beforeDestroy() {
     window.removeEventListener("keydown", this.key);
@@ -228,29 +256,29 @@ export default {
       this.hoverNav = false;
       this.$router.push({ path: this.nextLink });
     },
-    key(event) {
-      if (this.show !== null) {
-        return;
-      }
+    // key(event) {
+    //   if (this.show !== null) {
+    //     return;
+    //   }
 
-      if (event.which === 13 || event.which === 39) {
-        // right arrow
-        if (this.hasNext) this.next();
-      } else if (event.which === 37) {
-        // left arrow
-        if (this.hasPrevious) this.prev();
-      } else if (event.which === 27) {
-        // esc
-        this.close();
-      }
-    },
+    //   if (event.which === 13 || event.which === 39) {
+    //     // right arrow
+    //     if (this.hasNext) this.next();
+    //   } else if (event.which === 37) {
+    //     // left arrow
+    //     if (this.hasPrevious) this.prev();
+    //   } else if (event.which === 27) {
+    //     // esc
+    //     this.close();
+    //   }
+    // },
     async updatePreview() {
       if (
         this.$refs.player &&
         this.$refs.player.paused &&
         !this.$refs.player.ended
       ) {
-        this.autoPlay = false;
+        this.autoPlay = true;
       }
 
       if (this.req.subtitles) {
@@ -326,6 +354,20 @@ export default {
     },
     download() {
       api.download(null, this.$route.path);
+    },
+    onPlay() {
+      this.dp.play();
+    },
+    getUrl() {
+      // reload the image when the file is replaced
+      const key = Date.parse(this.req.modified);
+
+      if (this.req.type === "image" && !this.fullSize) {
+        return `${baseURL}/api/preview/big${url.encodePath(
+          this.req.path
+        )}?k=${key}`;
+      }
+      return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
   },
 };
