@@ -54,7 +54,7 @@
       </div>
     </div>
     <template v-else>
-      <div class="preview">
+      <div class="preview" style="width: 100%; height: 100%; margin: 0 auto">
         <ExtendedImage v-if="req.type == 'image'" :src="raw"></ExtendedImage>
         <audio
           v-else-if="req.type == 'audio'"
