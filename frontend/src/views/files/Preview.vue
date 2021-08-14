@@ -204,7 +204,7 @@ export default {
     },
   },
   async mounted() {
-    window.addEventListener("keydown", this.key);
+    // window.addEventListener("keydown", this.key);
     this.listing = this.oldReq.items;
     this.updatePreview();
     if (this.req.type == "video") {
@@ -228,9 +228,9 @@ export default {
       });
     }
   },
-  beforeDestroy() {
-    window.removeEventListener("keydown", this.key);
-  },
+  // beforeDestroy() {
+  //   window.removeEventListener("keydown", this.key);
+  // },
   methods: {
     deleteFile() {
       this.$store.commit("showHover", {

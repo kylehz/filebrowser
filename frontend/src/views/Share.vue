@@ -122,7 +122,7 @@
             <span>{{ $t("files.lonely") }}</span>
           </h2>
         </div>
-        <div class="share__box share__box__info">
+        <!-- <div class="share__box share__box__info">
           <div class="share__box__header">
             {{
               req.isDir
@@ -164,7 +164,7 @@
           <div class="share__box__element share__box__center">
             <qrcode-vue :value="fullLink" size="200" level="M"></qrcode-vue>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -181,8 +181,9 @@ import HeaderBar from "@/components/header/HeaderBar";
 import Action from "@/components/header/Action";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Errors from "@/views/Errors";
-import QrcodeVue from "qrcode.vue";
+// import QrcodeVue from "qrcode.vue";
 import Item from "@/components/files/ListingItem";
+// import Preview from "@/views/files/Preview";
 
 export default {
   name: "share",
@@ -191,8 +192,9 @@ export default {
     Action,
     Breadcrumbs,
     Item,
-    QrcodeVue,
+    // QrcodeVue,
     Errors,
+    // Preview,
   },
   data: () => ({
     error: null,
