@@ -187,7 +187,7 @@ import Errors from "@/views/Errors";
 // import QrcodeVue from "qrcode.vue";
 import Item from "@/components/files/ListingItem";
 import Preview from "@/views/files/Preview";
-import Listing from "@/views/files/Listing";
+// import Listing from "@/views/files/Listing";
 
 export default {
   name: "share",
@@ -199,8 +199,8 @@ export default {
     // QrcodeVue,
     Errors,
     Preview,
-    Listing,
-    Editor: () => import("@/views/files/Editor"),
+    // Listing,
+    // Editor: () => import("@/views/files/Editor"),
   },
   data: () => ({
     error: null,
@@ -235,14 +235,15 @@ export default {
       if (this.req.type == undefined) {
         return null;
       }
-
       if (this.req.isDir) {
-        return "listing";
+        return null;
+        // return "listing";
       } else if (
         this.req.type === "text" ||
         this.req.type === "textImmutable"
       ) {
-        return "editor";
+        return null;
+        // return "editor";
       } else {
         return "preview";
       }
