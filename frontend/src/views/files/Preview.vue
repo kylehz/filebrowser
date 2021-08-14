@@ -200,7 +200,7 @@ export default {
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
     raw() {
-      if (this.req.url.indexOf("/share/") != -1) {
+      if (this.req.url.startsWith("/share/")) {
         return `${this.publink}&inline=true`;
       }
       return `${this.previewUrl}&inline=true`;
@@ -396,7 +396,7 @@ export default {
       return `${baseURL}/api/public/dl/${path}${queryArg}`;
     },
     getUrl() {
-      if (this.req.url.indexOf("/share/") != -1) {
+      if (this.req.url.startsWith("/share/")) {
         return this.publink1() + "&inline=true";
       }
       return this.previewUrl1() + "&inline=true";
