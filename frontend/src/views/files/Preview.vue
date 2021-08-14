@@ -176,6 +176,18 @@ export default {
         this.jwt
       }`;
     },
+    publink() {
+      let queryArg = "";
+      if (this.token !== "") {
+        queryArg = `?token=${this.token}`;
+      }
+
+      const path = this.$route.path.split("/").splice(2).join("/");
+      return `${baseURL}/api/public/dl/${path}${queryArg}`;
+    },
+    pubfullLink() {
+      return window.location.origin + this.link;
+    },
     previewUrl() {
       // reload the image when the file is replaced
       const key = Date.parse(this.req.modified);
@@ -188,6 +200,9 @@ export default {
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
     raw() {
+      if (this.req.url.indexOf("/share/") != -1) {
+        return `${this.publink}`;
+      }
       return `${this.previewUrl}&inline=true`;
     },
     showMore() {
@@ -358,7 +373,7 @@ export default {
     onPlay() {
       this.dp.play();
     },
-    getUrl() {
+    previewUrl1() {
       // reload the image when the file is replaced
       const key = Date.parse(this.req.modified);
 
@@ -368,6 +383,21 @@ export default {
         )}?k=${key}`;
       }
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
+    },
+    publink1() {
+      let queryArg = "";
+      if (this.token !== "") {
+        queryArg = `?token=${this.token}`;
+      }
+
+      const path = this.$route.path.split("/").splice(2).join("/");
+      return `${baseURL}/api/public/dl/${path}${queryArg}`;
+    },
+    getUrl() {
+      if (this.req.url.indexOf("/share/") != -1) {
+        return this.publink1();
+      }
+      return this.previewUrl1() + "&inline=true";
     },
   },
 };

@@ -19,6 +19,9 @@
 
     <breadcrumbs :base="'/share/' + hash" />
 
+    <errors v-if="error" :errorCode="error.message" />
+    <component v-else-if="currentView" :is="currentView"></component>
+
     <div v-if="loading">
       <h2 class="message delayed">
         <div class="spinner">
@@ -183,7 +186,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Errors from "@/views/Errors";
 // import QrcodeVue from "qrcode.vue";
 import Item from "@/components/files/ListingItem";
-// import Preview from "@/views/files/Preview";
+import Preview from "@/views/files/Preview";
+import Listing from "@/views/files/Listing";
 
 export default {
   name: "share",
@@ -194,7 +198,9 @@ export default {
     Item,
     // QrcodeVue,
     Errors,
-    // Preview,
+    Preview,
+    Listing,
+    Editor: () => import("@/views/files/Editor"),
   },
   data: () => ({
     error: null,
@@ -225,6 +231,22 @@ export default {
   computed: {
     ...mapState(["req", "loading", "multiple", "selected"]),
     ...mapGetters(["selectedCount", "selectedCount"]),
+    currentView() {
+      if (this.req.type == undefined) {
+        return null;
+      }
+
+      if (this.req.isDir) {
+        return "listing";
+      } else if (
+        this.req.type === "text" ||
+        this.req.type === "textImmutable"
+      ) {
+        return "editor";
+      } else {
+        return "preview";
+      }
+    },
     icon: function () {
       if (this.req.isDir) return "folder";
       if (this.req.type === "image") return "insert_photo";
@@ -286,7 +308,7 @@ export default {
         let file = await api.fetch(url, this.password);
 
         this.token = file.token || "";
-
+        // console.log("fetchData:", file);
         this.updateRequest(file);
         document.title = `${file.name} - ${this.$route.name}`;
       } catch (e) {
