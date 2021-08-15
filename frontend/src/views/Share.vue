@@ -311,7 +311,7 @@ export default {
         this.token = file.token || "";
         // console.log("fetchData:", file);
         this.updateRequest(file);
-        document.title = `${file.name} - ${this.$route.name}`;
+        document.title = `${file.name}`;
       } catch (e) {
         this.error = e;
       } finally {

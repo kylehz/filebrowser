@@ -302,8 +302,9 @@ export default {
         );
       }
 
-      let dirs = this.$route.fullPath.split("/");
-      this.name = decodeURIComponent(dirs[dirs.length - 1]);
+      // let dirs = this.$route.fullPath.split("/");
+      // this.name = decodeURIComponent(dirs[dirs.length - 1]);
+      this.name = document.title;
 
       if (!this.listing) {
         try {
