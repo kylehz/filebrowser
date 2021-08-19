@@ -172,23 +172,32 @@ export default {
       return this.nextLink !== "";
     },
     downloadUrl() {
+      console.log("startsWith:", this.req.url);
+      if (this.req.url.startsWith("/share/")) {
+        let queryArg = "";
+        if (this.token !== "") {
+          queryArg = `?token=${this.token}`;
+        }
+        const path = this.$route.path.split("/").splice(2).join("/");
+        return `${baseURL}/api/public/dl/${path}${queryArg}`;
+      }
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?auth=${
         this.jwt
       }`;
-    },
-    publink() {
-      let queryArg = "";
-      if (this.token !== "") {
-        queryArg = `?token=${this.token}`;
-      }
-
-      const path = this.$route.path.split("/").splice(2).join("/");
-      return `${baseURL}/api/public/dl/${path}${queryArg}`;
     },
     pubfullLink() {
       return window.location.origin + this.link;
     },
     previewUrl() {
+      if (this.req.url.startsWith("/share/")) {
+        let queryArg = "";
+        if (this.token !== "") {
+          queryArg = `?token=${this.token}`;
+        }
+
+        const path = this.$route.path.split("/").splice(2).join("/");
+        return `${baseURL}/api/public/dl/${path}${queryArg}`;
+      }
       // reload the image when the file is replaced
       const key = Date.parse(this.req.modified);
 
@@ -200,9 +209,6 @@ export default {
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
     raw() {
-      if (this.req.url.startsWith("/share/")) {
-        return `${this.publink}&inline=true`;
-      }
       return `${this.previewUrl}&inline=true`;
     },
     showMore() {
@@ -370,13 +376,36 @@ export default {
       let uri = url.removeLastDir(this.$route.path) + "/";
       this.$router.push({ path: uri });
     },
+    downloadUrl1() {
+      console.log("startsWith:", this.req.url);
+      if (this.req.url.startsWith("/share/")) {
+        let queryArg = "";
+        if (this.token !== "") {
+          queryArg = `?token=${this.token}`;
+        }
+        const path = this.$route.path.split("/").splice(2).join("/");
+        return `${baseURL}/api/public/dl/${path}${queryArg}`;
+      }
+      return `${baseURL}/api/raw${url.encodePath(this.req.path)}?auth=${
+        this.jwt
+      }`;
+    },
     download() {
-      api.download(null, this.$route.path);
+      window.open(this.downloadUrl1());
     },
     onPlay() {
       this.dp.play();
     },
     previewUrl1() {
+      if (this.req.url.startsWith("/share/")) {
+        let queryArg = "";
+        if (this.token !== "") {
+          queryArg = `?token=${this.token}`;
+        }
+
+        const path = this.$route.path.split("/").splice(2).join("/");
+        return `${baseURL}/api/public/dl/${path}${queryArg}`;
+      }
       // reload the image when the file is replaced
       const key = Date.parse(this.req.modified);
 
@@ -387,19 +416,7 @@ export default {
       }
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
-    publink1() {
-      let queryArg = "";
-      if (this.token !== "") {
-        queryArg = `?token=${this.token}`;
-      }
-
-      const path = this.$route.path.split("/").splice(2).join("/");
-      return `${baseURL}/api/public/dl/${path}${queryArg}`;
-    },
     getUrl() {
-      if (this.req.url.startsWith("/share/")) {
-        return this.publink1() + "&inline=true";
-      }
       return this.previewUrl1() + "&inline=true";
     },
   },
