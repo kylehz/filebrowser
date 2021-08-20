@@ -8,10 +8,9 @@ import Vue from "@/utils/vue";
 import { recaptcha, loginPage } from "@/utils/constants";
 import { login, validateLogin } from "@/utils/auth";
 import App from "@/App";
-
-import VueVideoPlayer from "vue-video-player";
-import "video.js/dist/video-js.css";
-Vue.use(VueVideoPlayer);
+import VueDPlayer from "vue-dplayer";
+import "vue-dplayer/dist/vue-dplayer.css";
+Vue.use(VueDPlayer);
 
 cssVars();
 

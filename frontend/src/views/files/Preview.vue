@@ -64,17 +64,13 @@
           :autoplay="autoPlay"
           @play="autoPlay = true"
         ></audio>
-        <div
+        <d-player
           v-else-if="req.type == 'video'"
           style="width: 100%; height: 100%; margin: 0 auto"
+          ref="player"
+          :options="videoOptions"
         >
-          <video-player
-            class="video-player vjs-custom-skin"
-            ref="videoPlayer"
-            :options="playerOptions"
-          >
-          </video-player>
-        </div>
+        </d-player>
 
         <!-- <video
           v-else-if="req.type == 'video'"
@@ -165,8 +161,8 @@ export default {
       navTimeout: null,
       hoverNav: false,
       autoPlay: false,
-      dp: null,
       source: "",
+      player: null,
     };
   },
   computed: {
@@ -223,30 +219,33 @@ export default {
     isResizeEnabled() {
       return resizePreview;
     },
-    playerOptions() {
+    videoOptions() {
       return {
-        // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-        autoplay: true, //如果true,浏览器准备好时开始回放。
-        muted: false, // 默认情况下将会消除任何音频。
-        loop: false, // 导致视频一结束就重新开始。
-        preload: "auto", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-        language: "zh-CN",
-        // aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-        sources: [
+        container: document.getElementById("dplayer"), //播放器容器
+        mutex: false, //  防止同时播放多个用户，在该用户开始播放时暂停其他用户
+        theme: "#b7daff", // 风格颜色，例如播放条，音量条的颜色
+        loop: false, // 是否自动循环
+        lang: "zh-cn", // 语言，'en', 'zh-cn', 'zh-tw'
+        // screenshot: true, // 是否允许截图（按钮），点击可以自动将截图下载到本地
+        hotkey: true, // 是否支持热键，调节音量，播放，暂停等
+        preload: "auto", // 自动预加载
+        volume: 1, // 初始化音量
+        playbackSpeed: [0.5, 0.75, 1, 1.25, 1.5, 2, 3], //可选的播放速度，可自定义
+        // logo:
+        //   "https://qczh-1252727916.cos.ap-nanjing.myqcloud.com/pic/273658f508d04d488414fd2b84c9f923.png", // 在视频左角上打一个logo
+        video: {
+          url: `${this.raw}`,
+        },
+        highlight: [
           {
-            type: "video/mp4",
-            src: `${this.previewUrl}`,
+            text: "10M",
+            time: 6,
+          },
+          {
+            text: "20M",
+            time: 12,
           },
         ],
-        width: document.documentElement.clientWidth,
-        notSupportedMessage: "此视频暂无法播放，请稍后再试", //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-        //        controlBar: {
-        //          timeDivider: true,
-        //          durationDisplay: true,
-        //          remainingTimeDisplay: false,
-        //          fullscreenToggle: true  //全屏按钮
-        //        }
       };
     },
   },
@@ -260,6 +259,8 @@ export default {
     // window.addEventListener("keydown", this.key);
     this.listing = this.oldReq.items;
     this.updatePreview();
+    this.player = this.$refs.player.dp;
+    this.player.play();
   },
   // beforeDestroy() {
   //   window.removeEventListener("keydown", this.key);
