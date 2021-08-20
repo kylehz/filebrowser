@@ -64,13 +64,17 @@
           :autoplay="autoPlay"
           @play="autoPlay = true"
         ></audio>
-        <video-player
+        <div
           v-else-if="req.type == 'video'"
-          class="video-player vjs-custom-skin"
-          ref="videoPlayer"
-          :options="playerOptions"
+          style="width: 100%; height: 100%; margin: 0 auto"
         >
-        </video-player>
+          <video-player
+            class="video-player vjs-custom-skin"
+            ref="videoPlayer"
+            :options="playerOptions"
+          >
+          </video-player>
+        </div>
 
         <!-- <video
           v-else-if="req.type == 'video'"
