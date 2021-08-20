@@ -8,6 +8,9 @@ import Vue from "@/utils/vue";
 import { recaptcha, loginPage } from "@/utils/constants";
 import { login, validateLogin } from "@/utils/auth";
 import App from "@/App";
+import VueAliplayerV2 from "vue-aliplayer-v2";
+
+Vue.use(VueAliplayerV2);
 
 cssVars();
 

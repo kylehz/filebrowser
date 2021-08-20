@@ -4,7 +4,6 @@ import Login from "@/views/Login";
 import Layout from "@/views/Layout";
 import Files from "@/views/Files";
 import Share from "@/views/Share";
-import optimizeVideo from "@/views/Player";
 import Users from "@/views/settings/Users";
 import User from "@/views/settings/User";
 import Settings from "@/views/Settings";
@@ -42,11 +41,6 @@ const router = new Router({
           path: "/share/*",
           name: "Share",
           component: Share,
-        },
-        {
-          path: "/play",
-          name: "optimizeVideo",
-          component: optimizeVideo,
         },
         {
           path: "/files/*",

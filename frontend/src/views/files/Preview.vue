@@ -64,12 +64,14 @@
           :autoplay="autoPlay"
           @play="autoPlay = true"
         ></audio>
-        <div
-          id="dplayer"
-          class="play-root"
+        <vue-aliplayer-v2
+          :source="source"
+          ref="VueAliplayerV2"
+          :options="options"
           v-else-if="req.type == 'video'"
           style="width: 100%; height: 100%; margin: 0 auto"
-        ></div>
+        />
+
         <!-- <video
           v-else-if="req.type == 'video'"
           ref="player"
@@ -137,7 +139,6 @@ import throttle from "lodash.throttle";
 import HeaderBar from "@/components/header/HeaderBar";
 import Action from "@/components/header/Action";
 import ExtendedImage from "@/components/files/ExtendedImage";
-import DPlayer from "dplayer";
 
 const mediaTypes = ["image", "video", "audio", "blob"];
 
@@ -161,6 +162,8 @@ export default {
       hoverNav: false,
       autoPlay: false,
       dp: null,
+      source: "",
+      options: {},
     };
   },
   computed: {
@@ -230,23 +233,13 @@ export default {
     this.updatePreview();
     if (this.req.type == "video") {
       const url = this.getUrl();
-      // console.log("url:" + url);
-      this.dp = new DPlayer({
-        // 配置参数
-        container: document.getElementById("dplayer"),
-        autoplay: true,
-        theme: "#FADFA3",
-        loop: true,
-        lang: "zh-cn",
-        preload: "auto",
-        // logo: 'logo.png',
-        volume: 1,
-        video: {
-          url: url,
-          pic: "",
-          type: "auto",
-        },
-      });
+      this.options = {
+        // source:'//player.alicdn.com/video/aliyunmedia.mp4',
+        isLive: false, //切换为直播流的时候必填
+        show: true,
+        // format: 'm3u8'  //切换为直播流的时候必填
+      };
+      this.source = url;
     }
   },
   // beforeDestroy() {
@@ -394,7 +387,7 @@ export default {
       window.open(this.downloadUrl1());
     },
     onPlay() {
-      this.dp.play();
+      this.$refs.VueAliplayerV2.play();
     },
     previewUrl1() {
       if (this.req.url.startsWith("/share/")) {
