@@ -211,8 +211,7 @@ export default {
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
     raw() {
-      // return `${this.previewUrl}&inline=true`;
-      return `${this.previewUrl}`;
+      return `${this.previewUrl}&inline=true`;
     },
     showMore() {
       return this.$store.state.show === "more";
@@ -235,7 +234,7 @@ export default {
         // logo:
         //   "https://qczh-1252727916.cos.ap-nanjing.myqcloud.com/pic/273658f508d04d488414fd2b84c9f923.png", // 在视频左角上打一个logo
         video: {
-          url: `${this.raw}`,
+          url: `${this.previewUrl}`,
         },
         highlight: [
           {
