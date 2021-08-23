@@ -211,7 +211,8 @@ export default {
       return `${baseURL}/api/raw${url.encodePath(this.req.path)}?k=${key}`;
     },
     raw() {
-      return `${this.previewUrl}&inline=true`;
+      // return `${this.previewUrl}&inline=true`;
+      return `${this.previewUrl}`;
     },
     showMore() {
       return this.$store.state.show === "more";
@@ -317,7 +318,8 @@ export default {
 
       if (this.req.subtitles) {
         this.subtitles = this.req.subtitles.map(
-          (sub) => `${baseURL}/api/raw${sub}?inline=true`
+          // (sub) => `${baseURL}/api/raw${sub}?inline=true`
+          (sub) => `${baseURL}/api/raw${sub}`
         );
       }
 
