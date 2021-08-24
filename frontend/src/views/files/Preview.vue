@@ -228,7 +228,7 @@ export default {
         lang: "zh-cn", // 语言，'en', 'zh-cn', 'zh-tw'
         // screenshot: true, // 是否允许截图（按钮），点击可以自动将截图下载到本地
         hotkey: true, // 是否支持热键，调节音量，播放，暂停等
-        preload: "metadata", // 自动预加载
+        preload: "none", // 自动预加载
         volume: 1, // 初始化音量
         playbackSpeed: [0.5, 0.75, 1, 1.25, 1.5, 2, 3], //可选的播放速度，可自定义
         // logo:
