@@ -56,16 +56,16 @@
     <template v-else>
       <div class="preview" style="width: 100%; height: 100%; margin: 0 auto">
         <ExtendedImage v-if="req.type == 'image'" :src="raw"></ExtendedImage>
-        <audio
+        <!-- <audio
           v-else-if="req.type == 'audio'"
           ref="player"
           :src="raw"
           controls
           :autoplay="autoPlay"
           @play="autoPlay = true"
-        ></audio>
+        ></audio> -->
         <d-player
-          v-else-if="req.type == 'video'"
+          v-else-if="req.type == 'video' || req.type == 'audio'"
           style="width: 100%; height: 100%; margin: 0 auto"
           ref="player"
           :options="videoOptions"
@@ -256,6 +256,7 @@ export default {
     },
   },
   async mounted() {
+    // console.log(this.req.type);
     // window.addEventListener("keydown", this.key);
     this.listing = this.oldReq.items;
     this.updatePreview();
